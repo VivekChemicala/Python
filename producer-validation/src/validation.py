@@ -22,7 +22,7 @@ REQUIRED_FIELDS = (
     "resident_state",
 )
 
-NPN_PATTERN = re.compile(r"^\d{1,10}$")
+NPN_PATTERN = re.compile(r"[0-9]{1,10}")
 
 
 @dataclass(frozen=True)
@@ -64,7 +64,7 @@ def _check_npn(record: dict, result: ValidationResult) -> None:
     npn = record.get("npn")
     if _is_blank(npn):
         return
-    if not NPN_PATTERN.match(str(npn)):
+    if not NPN_PATTERN.fullmatch(str(npn)):
         result.errors.append(
             Issue("NPN_INVALID", "npn", "NPN must be 1-10 digits")
         )

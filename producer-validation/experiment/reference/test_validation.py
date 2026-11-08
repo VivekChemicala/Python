@@ -49,7 +49,7 @@ def test_br001_required_field_missing(name):
 
 
 # BR-002
-@pytest.mark.parametrize("npn", ["12AB", "12345678901", "-1"])
+@pytest.mark.parametrize("npn", ["12AB", "12345678901", "-1", "123\n"])
 def test_br002_npn_invalid(npn):
     result = validate_producer(make_record(npn=npn), as_of=AS_OF)
     assert result.error_codes() == ["NPN_INVALID"]
