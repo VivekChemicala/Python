@@ -6,6 +6,7 @@ Checks, derived from docs/business-rules.md:
   R3 validation emits only documented codes on the synthetic dataset
   R4 validation never raises on the synthetic dataset
   R5 rule logic does not read the system clock (date.today only as default)
+  R6 synthetic records produce the outcomes documented in their `_expect`
 """
 
 from __future__ import annotations
@@ -39,6 +40,22 @@ def _load_validation(root: Path):
     return module
 
 
+def _outcome_mismatches(rec: dict, res) -> list[str]:
+    expect, rid = rec.get("_expect", {}), rec.get("producer_id")
+    out = []
+    if "valid" in expect and res.is_valid != expect["valid"]:
+        out.append(f"{rid}: is_valid={res.is_valid}, expected "
+                   f"{expect['valid']}")
+    for kind in ("errors", "warnings"):
+        if kind not in expect:
+            continue
+        got = sorted([i.code, i.field] for i in getattr(res, kind))
+        if got != sorted(expect[kind]):
+            out.append(f"{rid}: {kind} {got}, expected "
+                       f"{sorted(expect[kind])}")
+    return out
+
+
 def run_checks(root: Path) -> list[dict]:
     doc = (root / "docs" / "business-rules.md").read_text()
     src = (root / "src" / "validation.py").read_text()
@@ -64,7 +81,7 @@ def run_checks(root: Path) -> list[dict]:
     records = json.loads((root / "data" / "synthetic_producers.json")
                          .read_text())
     as_of = date(2026, 6, 1)
-    crashes, undocumented = [], set()
+    crashes, undocumented, mismatches = [], set(), []
     try:
         module = _load_validation(root)
         for rec in records:
@@ -73,6 +90,7 @@ def run_checks(root: Path) -> list[dict]:
                 for issue in [*res.errors, *res.warnings]:
                     if issue.code not in documented:
                         undocumented.add(issue.code)
+                mismatches += _outcome_mismatches(rec, res)
             except Exception as exc:  # noqa: BLE001
                 crashes.append(f"{rec.get('producer_id')}: {exc!r}")
     except Exception as exc:  # noqa: BLE001
@@ -82,6 +100,11 @@ def run_checks(root: Path) -> list[dict]:
         else f"{len(records)} records")
     add("R4 never raises on synthetic data", not crashes,
         "; ".join(crashes[:5]) if crashes else f"{len(records)} records")
+
+    add("R6 synthetic records match expected outcomes",
+        not mismatches and not crashes,
+        "; ".join(mismatches[:8]) if mismatches
+        else f"{len(records)} records")
 
     today_calls = re.findall(r"date\.today\(\)|datetime\.now\(", src)
     allowed = len(re.findall(r"as_of\s*=\s*as_of\s+or\s+date\.today\(\)",

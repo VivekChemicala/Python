@@ -81,6 +81,9 @@ Rule checks (`python -m harness.check_rules`):
 - R3: only documented codes are emitted on the synthetic data.
 - R4: validation never raises on the synthetic data.
 - R5: rule logic never reads the system clock.
+- R6: each synthetic record produces the outcome recorded in its `_expect`
+  field (valid or not, plus exact codes and field paths where the docs pin
+  them down).
 
 ## Fairness notes
 

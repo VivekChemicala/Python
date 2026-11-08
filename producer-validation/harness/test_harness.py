@@ -13,6 +13,20 @@ def test_baseline_fails_rule_checks_for_unimplemented_rules():
     assert not results["R1"]["passed"]
     assert not results["R2"]["passed"]
     assert results["R4"]["passed"]
+    assert not results["R6"]["passed"]
+
+
+def test_codes_without_enforcement_fail_outcome_check(tmp_path):
+    ws = run_experiment.make_workspace(tmp_path / "ws")
+    src = (ws / "src/validation.py").read_text()
+    codes = ("LICENSE_STATE_INVALID LICENSE_DATE_INVALID "
+             "RESIDENT_LICENSE_MISSING LICENSE_EXPIRING_SOON "
+             "APPOINTMENT_STATE_UNLICENSED").split()
+    (ws / "src/validation.py").write_text(
+        src + "\nUNUSED = " + repr(codes) + "\n")
+    results = {r["check"][:2]: r for r in check_rules.run_checks(ws)}
+    assert results["R1"]["passed"]
+    assert not results["R6"]["passed"]
 
 
 def test_apply_files_only_allows_editable_paths(tmp_path):

@@ -21,7 +21,12 @@
         "status": "active"
       }
     ],
-    "_scenario": "clean"
+    "_scenario": "clean",
+    "_expect": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
   },
   {
     "producer_id": "P-30002",
@@ -62,7 +67,12 @@
         "status": "active"
       }
     ],
-    "_scenario": "multi_state"
+    "_scenario": "multi_state",
+    "_expect": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
   },
   {
     "producer_id": "P-30003",
@@ -86,7 +96,17 @@
         "status": "active"
       }
     ],
-    "_scenario": "expiring_soon"
+    "_scenario": "expiring_soon",
+    "_expect": {
+      "valid": true,
+      "errors": [],
+      "warnings": [
+        [
+          "LICENSE_EXPIRING_SOON",
+          "licenses[0].expiration_date"
+        ]
+      ]
+    }
   },
   {
     "producer_id": "P-30004",
@@ -110,7 +130,21 @@
         "status": "active"
       }
     ],
-    "_scenario": "expired_resident"
+    "_scenario": "expired_resident",
+    "_expect": {
+      "valid": false,
+      "errors": [
+        [
+          "APPOINTMENT_STATE_UNLICENSED",
+          "appointments[0].state"
+        ],
+        [
+          "RESIDENT_LICENSE_MISSING",
+          "licenses"
+        ]
+      ],
+      "warnings": []
+    }
   },
   {
     "producer_id": "P-30005",
@@ -134,7 +168,21 @@
         "status": "active"
       }
     ],
-    "_scenario": "lapsed_resident"
+    "_scenario": "lapsed_resident",
+    "_expect": {
+      "valid": false,
+      "errors": [
+        [
+          "APPOINTMENT_STATE_UNLICENSED",
+          "appointments[0].state"
+        ],
+        [
+          "RESIDENT_LICENSE_MISSING",
+          "licenses"
+        ]
+      ],
+      "warnings": []
+    }
   },
   {
     "producer_id": "P-30006",
@@ -163,7 +211,17 @@
         "status": "active"
       }
     ],
-    "_scenario": "unlicensed_appointment"
+    "_scenario": "unlicensed_appointment",
+    "_expect": {
+      "valid": false,
+      "errors": [
+        [
+          "APPOINTMENT_STATE_UNLICENSED",
+          "appointments[1].state"
+        ]
+      ],
+      "warnings": []
+    }
   },
   {
     "producer_id": "P-30007",
@@ -192,7 +250,12 @@
         "status": "terminated"
       }
     ],
-    "_scenario": "terminated_appointment"
+    "_scenario": "terminated_appointment",
+    "_expect": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
   },
   {
     "producer_id": "P-30008",
@@ -222,7 +285,17 @@
         "status": "active"
       }
     ],
-    "_scenario": "bad_license_date"
+    "_scenario": "bad_license_date",
+    "_expect": {
+      "valid": false,
+      "errors": [
+        [
+          "LICENSE_DATE_INVALID",
+          "licenses[1].expiration_date"
+        ]
+      ],
+      "warnings": []
+    }
   },
   {
     "producer_id": "P-30009",
@@ -252,7 +325,17 @@
         "status": "active"
       }
     ],
-    "_scenario": "bad_license_state"
+    "_scenario": "bad_license_state",
+    "_expect": {
+      "valid": false,
+      "errors": [
+        [
+          "LICENSE_STATE_INVALID",
+          "licenses[1].state"
+        ]
+      ],
+      "warnings": []
+    }
   },
   {
     "producer_id": "P-30010",
@@ -268,7 +351,21 @@
         "status": "active"
       }
     ],
-    "_scenario": "no_licenses_key"
+    "_scenario": "no_licenses_key",
+    "_expect": {
+      "valid": false,
+      "errors": [
+        [
+          "APPOINTMENT_STATE_UNLICENSED",
+          "appointments[0].state"
+        ],
+        [
+          "RESIDENT_LICENSE_MISSING",
+          "licenses"
+        ]
+      ],
+      "warnings": []
+    }
   },
   {
     "producer_id": "P-30011",
@@ -281,7 +378,10 @@
     "appointments": [
       null
     ],
-    "_scenario": "garbage_licenses"
+    "_scenario": "garbage_licenses",
+    "_expect": {
+      "valid": false
+    }
   },
   {
     "producer_id": "P-30012",
@@ -305,7 +405,10 @@
         "status": "active"
       }
     ],
-    "_scenario": "bad_identity"
+    "_scenario": "bad_identity",
+    "_expect": {
+      "valid": false
+    }
   },
   {
     "producer_id": "P-30013",
@@ -329,6 +432,11 @@
         "status": "Active"
       }
     ],
-    "_scenario": "lowercase"
+    "_scenario": "lowercase",
+    "_expect": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
   }
 ]
