@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
-DEFAULT_MODELS = {"anthropic": "claude-sonnet-4-5", "openai": "gpt-4.1",
+DEFAULT_MODELS = {"anthropic": "claude-sonnet-4-6", "openai": "gpt-4.1",
                   "github": "openai/gpt-4.1"}
 GITHUB_MODELS_URL = "https://models.github.ai/inference"
 

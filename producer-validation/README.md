@@ -51,7 +51,7 @@ python -m pytest harness    # harness self-tests
 ```bash
 export ANTHROPIC_API_KEY=...   # or OPENAI_API_KEY with --backend openai,
                                # or GITHUB_TOKEN (models:read) with --backend github
-python -m harness.run_experiment --backend anthropic --model claude-sonnet-4-5 --trials 3
+python -m harness.run_experiment --backend anthropic --model claude-sonnet-4-6 --trials 3
 python -m harness.run_experiment --backend mock          # offline pipeline check
 ```
 
