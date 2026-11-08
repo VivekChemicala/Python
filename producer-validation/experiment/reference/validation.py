@@ -23,6 +23,7 @@ REQUIRED_FIELDS = (
 )
 
 NPN_PATTERN = re.compile(r"[0-9]{1,10}")
+ISO_DATE_PATTERN = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}")
 
 
 @dataclass(frozen=True)
@@ -99,10 +100,10 @@ EXPIRY_WARNING_DAYS = 30
 
 
 def _parse_date(value: Any) -> date | None:
-    if not isinstance(value, str):
+    if not isinstance(value, str) or not ISO_DATE_PATTERN.fullmatch(value):
         return None
     try:
-        return date.fromisoformat(value) if len(value) == 10 else None
+        return date.fromisoformat(value)
     except ValueError:
         return None
 

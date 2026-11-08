@@ -157,6 +157,13 @@ class TestContract:
         assert issues(res.errors) == {
             ("LICENSE_DATE_INVALID", "licenses[1].expiration_date")}
 
+    def test_non_calendar_iso_date_is_invalid(self):
+        res = validate_producer(
+            record(licenses=[lic(), lic("OK", expiration_date="2027-W13-1")]),
+            as_of=AS_OF)
+        assert issues(res.errors) == {
+            ("LICENSE_DATE_INVALID", "licenses[1].expiration_date")}
+
     def test_license_state_invalid_code_and_path(self):
         res = validate_producer(record(licenses=[lic(), lic("XX")]),
                                 as_of=AS_OF)
@@ -171,6 +178,7 @@ MALFORMED = {
     "license_missing_fields": {"licenses": [{}]},
     "expiry_int": {"licenses": [lic(expiration_date=20270331)]},
     "expiry_garbage": {"licenses": [lic(expiration_date="soon")]},
+    "expiry_week_date": {"licenses": [lic(expiration_date="2027-W13-1")]},
     "state_none": {"licenses": [lic(state=None)]},
     "status_none": {"licenses": [lic(status=None)]},
     "appointments_string": {"appointments": "ACME"},
