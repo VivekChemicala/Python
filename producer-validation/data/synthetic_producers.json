@@ -1,0 +1,334 @@
+[
+  {
+    "producer_id": "P-30001",
+    "npn": "69106871",
+    "first_name": "Avery",
+    "last_name": "Synthetic",
+    "email": "avery.0@example.com",
+    "resident_state": "TX",
+    "licenses": [
+      {
+        "state": "TX",
+        "license_number": "TX-38140",
+        "status": "active",
+        "expiration_date": "2027-03-31"
+      }
+    ],
+    "appointments": [
+      {
+        "carrier_code": "ACME",
+        "state": "TX",
+        "status": "active"
+      }
+    ],
+    "_scenario": "clean"
+  },
+  {
+    "producer_id": "P-30002",
+    "npn": "6032582",
+    "first_name": "Blake",
+    "last_name": "Synthetic",
+    "email": "blake.1@example.com",
+    "resident_state": "TX",
+    "licenses": [
+      {
+        "state": "TX",
+        "license_number": "TX-52445",
+        "status": "active",
+        "expiration_date": "2027-03-31"
+      },
+      {
+        "state": "OK",
+        "license_number": "OK-29772",
+        "status": "active",
+        "expiration_date": "2027-03-31"
+      },
+      {
+        "state": "LA",
+        "license_number": "LA-61750",
+        "status": "active",
+        "expiration_date": "2027-03-31"
+      }
+    ],
+    "appointments": [
+      {
+        "carrier_code": "ACME",
+        "state": "TX",
+        "status": "active"
+      },
+      {
+        "carrier_code": "GLOBX",
+        "state": "OK",
+        "status": "active"
+      }
+    ],
+    "_scenario": "multi_state"
+  },
+  {
+    "producer_id": "P-30003",
+    "npn": "59202938",
+    "first_name": "Casey",
+    "last_name": "Synthetic",
+    "email": "casey.2@example.com",
+    "resident_state": "TX",
+    "licenses": [
+      {
+        "state": "TX",
+        "license_number": "TX-95319",
+        "status": "active",
+        "expiration_date": "2026-06-20"
+      }
+    ],
+    "appointments": [
+      {
+        "carrier_code": "ACME",
+        "state": "TX",
+        "status": "active"
+      }
+    ],
+    "_scenario": "expiring_soon"
+  },
+  {
+    "producer_id": "P-30004",
+    "npn": "10375836",
+    "first_name": "Devon",
+    "last_name": "Synthetic",
+    "email": "devon.3@example.com",
+    "resident_state": "TX",
+    "licenses": [
+      {
+        "state": "TX",
+        "license_number": "TX-16328",
+        "status": "active",
+        "expiration_date": "2026-02-28"
+      }
+    ],
+    "appointments": [
+      {
+        "carrier_code": "ACME",
+        "state": "TX",
+        "status": "active"
+      }
+    ],
+    "_scenario": "expired_resident"
+  },
+  {
+    "producer_id": "P-30005",
+    "npn": "13175294",
+    "first_name": "Emery",
+    "last_name": "Synthetic",
+    "email": "emery.4@example.com",
+    "resident_state": "TX",
+    "licenses": [
+      {
+        "state": "TX",
+        "license_number": "TX-19494",
+        "status": "lapsed",
+        "expiration_date": "2027-03-31"
+      }
+    ],
+    "appointments": [
+      {
+        "carrier_code": "ACME",
+        "state": "TX",
+        "status": "active"
+      }
+    ],
+    "_scenario": "lapsed_resident"
+  },
+  {
+    "producer_id": "P-30006",
+    "npn": "57978001",
+    "first_name": "Finley",
+    "last_name": "Synthetic",
+    "email": "finley.5@example.com",
+    "resident_state": "TX",
+    "licenses": [
+      {
+        "state": "TX",
+        "license_number": "TX-17747",
+        "status": "active",
+        "expiration_date": "2027-03-31"
+      }
+    ],
+    "appointments": [
+      {
+        "carrier_code": "ACME",
+        "state": "TX",
+        "status": "active"
+      },
+      {
+        "carrier_code": "ACME",
+        "state": "NM",
+        "status": "active"
+      }
+    ],
+    "_scenario": "unlicensed_appointment"
+  },
+  {
+    "producer_id": "P-30007",
+    "npn": "76893910",
+    "first_name": "Harper",
+    "last_name": "Synthetic",
+    "email": "harper.6@example.com",
+    "resident_state": "TX",
+    "licenses": [
+      {
+        "state": "TX",
+        "license_number": "TX-26226",
+        "status": "active",
+        "expiration_date": "2027-03-31"
+      }
+    ],
+    "appointments": [
+      {
+        "carrier_code": "ACME",
+        "state": "TX",
+        "status": "active"
+      },
+      {
+        "carrier_code": "ACME",
+        "state": "NM",
+        "status": "terminated"
+      }
+    ],
+    "_scenario": "terminated_appointment"
+  },
+  {
+    "producer_id": "P-30008",
+    "npn": "30962626",
+    "first_name": "Jules",
+    "last_name": "Synthetic",
+    "email": "jules.7@example.com",
+    "resident_state": "TX",
+    "licenses": [
+      {
+        "state": "TX",
+        "license_number": "TX-80239",
+        "status": "active",
+        "expiration_date": "2027-03-31"
+      },
+      {
+        "state": "OK",
+        "license_number": "OK-22337",
+        "status": "active",
+        "expiration_date": "31-12-2027"
+      }
+    ],
+    "appointments": [
+      {
+        "carrier_code": "ACME",
+        "state": "TX",
+        "status": "active"
+      }
+    ],
+    "_scenario": "bad_license_date"
+  },
+  {
+    "producer_id": "P-30009",
+    "npn": "85212661",
+    "first_name": "Avery",
+    "last_name": "Synthetic",
+    "email": "avery.8@example.com",
+    "resident_state": "TX",
+    "licenses": [
+      {
+        "state": "TX",
+        "license_number": "TX-57931",
+        "status": "active",
+        "expiration_date": "2027-03-31"
+      },
+      {
+        "state": "QQ",
+        "license_number": "QQ-86387",
+        "status": "active",
+        "expiration_date": "2027-03-31"
+      }
+    ],
+    "appointments": [
+      {
+        "carrier_code": "ACME",
+        "state": "TX",
+        "status": "active"
+      }
+    ],
+    "_scenario": "bad_license_state"
+  },
+  {
+    "producer_id": "P-30010",
+    "npn": "9302983",
+    "first_name": "Blake",
+    "last_name": "Synthetic",
+    "email": "blake.9@example.com",
+    "resident_state": "TX",
+    "appointments": [
+      {
+        "carrier_code": "ACME",
+        "state": "TX",
+        "status": "active"
+      }
+    ],
+    "_scenario": "no_licenses_key"
+  },
+  {
+    "producer_id": "P-30011",
+    "npn": "79590039",
+    "first_name": "Casey",
+    "last_name": "Synthetic",
+    "email": "casey.10@example.com",
+    "resident_state": "TX",
+    "licenses": "TX",
+    "appointments": [
+      null
+    ],
+    "_scenario": "garbage_licenses"
+  },
+  {
+    "producer_id": "P-30012",
+    "npn": "12AB",
+    "first_name": "Devon",
+    "last_name": "Synthetic",
+    "email": "nobody",
+    "resident_state": "ZZ",
+    "licenses": [
+      {
+        "state": "TX",
+        "license_number": "TX-38977",
+        "status": "active",
+        "expiration_date": "2027-03-31"
+      }
+    ],
+    "appointments": [
+      {
+        "carrier_code": "ACME",
+        "state": "TX",
+        "status": "active"
+      }
+    ],
+    "_scenario": "bad_identity"
+  },
+  {
+    "producer_id": "P-30013",
+    "npn": "7252221",
+    "first_name": "Emery",
+    "last_name": "Synthetic",
+    "email": "emery.12@example.com",
+    "resident_state": "tx",
+    "licenses": [
+      {
+        "state": "tx",
+        "license_number": "tx-17602",
+        "status": "ACTIVE",
+        "expiration_date": "2027-03-31"
+      }
+    ],
+    "appointments": [
+      {
+        "carrier_code": "ACME",
+        "state": "tx",
+        "status": "Active"
+      }
+    ],
+    "_scenario": "lowercase"
+  }
+]
