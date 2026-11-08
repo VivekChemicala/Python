@@ -6,6 +6,7 @@ scored identically: verification gates (measured, even for the basic arm,
 which never ran them) and the held-out acceptance suite.
 
     python -m harness.run_experiment --backend anthropic --model <id> --trials 3
+    python -m harness.run_experiment --backend github --model openai/gpt-4.1
     python -m harness.run_experiment --backend mock    # offline pipeline check
 """
 
@@ -113,7 +114,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawTextHelpFormatter)
     ap.add_argument("--backend", default="anthropic",
-                    choices=["anthropic", "openai", "mock"])
+                    choices=["anthropic", "openai", "github", "mock"])
     ap.add_argument("--model")
     ap.add_argument("--temperature", type=float, default=0.0,
                     help="use -1 to omit (models that reject temperature)")

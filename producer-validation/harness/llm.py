@@ -10,7 +10,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
-DEFAULT_MODELS = {"anthropic": "claude-sonnet-4-5", "openai": "gpt-4.1"}
+DEFAULT_MODELS = {"anthropic": "claude-sonnet-4-5", "openai": "gpt-4.1",
+                  "github": "openai/gpt-4.1"}
+GITHUB_MODELS_URL = "https://models.github.ai/inference"
 
 
 @dataclass
@@ -34,7 +36,13 @@ class LLM:
         if self.backend == "anthropic":
             return self._anthropic(system, messages)
         if self.backend == "openai":
-            return self._openai(system, messages)
+            return self._openai(
+                system, messages,
+                os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1"),
+                os.environ.get("OPENAI_API_KEY", ""))
+        if self.backend == "github":
+            return self._openai(system, messages, GITHUB_MODELS_URL,
+                                os.environ.get("GITHUB_TOKEN", ""))
         if self.backend == "mock":
             if self._responder is None:
                 raise ValueError("mock backend needs a responder")
@@ -48,10 +56,15 @@ class LLM:
         )
         try:
             with urllib.request.urlopen(req, timeout=600) as resp:
-                return json.loads(resp.read())
+                raw = resp.read()
         except urllib.error.HTTPError as exc:
             detail = exc.read().decode(errors="replace")[:2000]
             raise RuntimeError(f"{self.backend} HTTP {exc.code}: {detail}")
+        try:
+            return json.loads(raw)
+        except ValueError:
+            raise RuntimeError(f"{self.backend} returned non-JSON response: "
+                               f"{raw[:200]!r}")
 
     def _anthropic(self, system: str, messages: list[dict]) -> Reply:
         body = {"model": self.model, "max_tokens": self.max_tokens,
@@ -69,17 +82,14 @@ class LLM:
         return Reply(text, usage.get("input_tokens", 0),
                      usage.get("output_tokens", 0))
 
-    def _openai(self, system: str, messages: list[dict]) -> Reply:
+    def _openai(self, system: str, messages: list[dict], base: str,
+                key: str) -> Reply:
         body = {"model": self.model,
                 "messages": [{"role": "system", "content": system}, *messages]}
         if self.temperature is not None:
             body["temperature"] = self.temperature
-        base = os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")
-        data = self._post(
-            f"{base}/chat/completions",
-            {"authorization": f"Bearer {os.environ['OPENAI_API_KEY']}"},
-            body,
-        )
+        data = self._post(f"{base}/chat/completions",
+                          {"authorization": f"Bearer {key}"}, body)
         usage = data.get("usage", {})
         return Reply(data["choices"][0]["message"]["content"],
                      usage.get("prompt_tokens", 0),
