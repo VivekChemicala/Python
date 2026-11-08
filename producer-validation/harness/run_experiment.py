@@ -123,6 +123,7 @@ def main(argv=None) -> int:
     ap.add_argument("--arms", default="basic,harness")
     ap.add_argument("--out", type=Path, default=PROJECT / "runs")
     args = ap.parse_args(argv)
+    args.out = args.out.resolve()
 
     responder = None
     if args.backend == "mock":
