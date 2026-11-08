@@ -60,3 +60,13 @@ def test_harness_feeds_gate_failures_back_until_verified(tmp_path):
     assert result.verified and result.iterations == 2
     assert "R2 rules traced to tests" in seen[1]
     assert (evidence / "verify_1.md").exists()
+
+
+def test_sandbox_env_strips_credentials(monkeypatch):
+    from harness.verify import sandbox_env
+
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+    monkeypatch.setenv("GH_TOKEN", "x")
+    env = sandbox_env(PV_WORKSPACE="/w")
+    assert "ANTHROPIC_API_KEY" not in env and "GH_TOKEN" not in env
+    assert env["PV_WORKSPACE"] == "/w" and "PATH" in env

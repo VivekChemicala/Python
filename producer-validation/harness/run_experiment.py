@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import shutil
 import subprocess
 import sys
@@ -24,7 +23,7 @@ from pathlib import Path
 
 from harness.agent import run_basic, run_harness
 from harness.llm import LLM, replay_responder
-from harness.verify import verify
+from harness.verify import sandbox_env, verify
 
 PROJECT = Path(__file__).resolve().parents[1]
 BASELINE_ITEMS = ("src", "tests", "docs", "data", "AGENTS.md", "pytest.ini",
@@ -47,7 +46,7 @@ def make_workspace(dest: Path) -> Path:
 
 
 def score_acceptance(workspace: Path, out_xml: Path) -> dict:
-    env = {**os.environ, "PV_WORKSPACE": str(workspace)}
+    env = sandbox_env(PV_WORKSPACE=str(workspace))
     subprocess.run(
         [sys.executable, "-m", "pytest", str(ACCEPTANCE), "-q",
          "-p", "no:cacheprovider", f"--junitxml={out_xml}"],

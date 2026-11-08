@@ -4,17 +4,27 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import re
 import subprocess
 import sys
 from pathlib import Path
 
 HARNESS_DIR = Path(__file__).resolve().parent
+SENSITIVE_ENV = re.compile(r"KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL", re.I)
+
+
+def sandbox_env(**extra: str) -> dict:
+    """Parent env minus credentials, for running AI-generated code."""
+    env = {k: v for k, v in os.environ.items() if not SENSITIVE_ENV.search(k)}
+    env.update(extra)
+    return env
 
 
 def _run(cmd: list[str], cwd: Path) -> dict:
     try:
         proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
-                              timeout=180)
+                              timeout=180, env=sandbox_env())
         out, code = proc.stdout + proc.stderr, proc.returncode
     except subprocess.TimeoutExpired as exc:
         out, code = f"TIMEOUT after {exc.timeout}s", 124
